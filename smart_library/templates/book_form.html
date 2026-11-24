@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block title %}Book{% endblock %}{% block content %}
+<div class="container" style="max-width:560px"><h3 class="text-purple">{{'Edit' if b else 'Add'}} Book</h3><form method="post">
+<input name="title" class="form-control mb-3" placeholder="Title" value="{{b.title if b}}" required><input name="author" class="form-control mb-3" placeholder="Author" value="{{b.author if b}}" required>
+<input name="isbn" class="form-control mb-3" placeholder="ISBN" value="{{b.isbn if b}}" required>
+<select name="category_id" class="form-select mb-3">{% for c in cats %}<option value="{{c.id}}" {{'selected' if b and b.category_id==c.id}}>{{c.name}}</option>{% endfor %}</select>
+<input name="total" type="number" min="0" class="form-control mb-3" placeholder="Total copies" value="{{b.total_copies if b else 1}}" required>
+<input name="cover" class="form-control mb-3" placeholder="Cover image URL (optional)" value="{{b.cover_url or '' if b}}">
+<button class="btn btn-purple">Save</button> <a href="{{url_for('books')}}" class="btn btn-light">Cancel</a></form></div>{% endblock %}

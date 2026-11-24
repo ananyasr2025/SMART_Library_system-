@@ -1,0 +1,13 @@
+:root{--navy:#0b1f4d;--purple:#6f42c1}
+body{background:#fff;font-family:'Segoe UI',system-ui,sans-serif}
+.bg-navy{background:var(--navy)!important}.bg-purple{background:var(--purple)!important}.text-purple{color:var(--purple)}
+.btn-purple{background:var(--purple);color:#fff;border:0}.btn-purple:hover{background:var(--navy);color:#fff}
+.hero{background:linear-gradient(135deg,var(--navy),var(--purple));color:#fff;padding:80px 0}
+.layout{min-height:100vh}.sidebar{width:230px;background:var(--navy);min-height:100vh;flex-shrink:0}
+.sidebar a{display:block;color:#cfd6ee;text-decoration:none;padding:10px 12px;border-radius:8px;margin-bottom:4px;transition:.2s}
+.sidebar a:hover{background:var(--purple);color:#fff;transform:translateX(4px)}
+.book-card,.stat{border:0;box-shadow:0 2px 12px rgba(11,31,77,.12);border-radius:14px;transition:.25s;overflow:hidden}
+.book-card:hover,.stat:hover{transform:translateY(-6px);box-shadow:0 8px 24px rgba(111,66,193,.3)}
+.book-card img{height:240px;object-fit:cover}.stat{padding:18px;border-left:5px solid var(--purple)}
+.stat h3{color:var(--navy);margin:0}main{animation:fade .5s}@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+@media(max-width:768px){.layout{flex-direction:column}.sidebar{width:100%;min-height:auto}}

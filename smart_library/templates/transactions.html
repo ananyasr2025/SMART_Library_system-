@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block title %}Transactions{% endblock %}{% block content %}
+<h3>{{'My Borrowing History' if session.role=='student' else 'All Transactions'}}</h3><div class="table-responsive"><table class="table table-hover align-middle">
+<tr><th>Student</th><th>Book</th><th>Requested</th><th>Due</th><th>Status</th><th>Fine</th>{% if session.role!='student' %}<th>Action</th>{% endif %}</tr>
+{% for r in rows %}<tr><td>{{r.name}}</td><td>{{r.title}}</td><td>{{r.request_date}}</td><td>{{r.due_date or '-'}}</td>
+<td><span class="badge bg-{{'danger' if r.status=='issued' and r.due_date<today else 'purple' if r.status=='issued' else 'secondary'}}">{{'overdue' if r.status=='issued' and r.due_date<today else r.status}}</span></td><td>{{('Rs '~r.fine) if r.fine is not none else '-'}}</td>
+{% if session.role!='student' %}<td>{% for a,l in ([('approve','Issue'),('reject','Reject')] if r.status=='requested' else [('return','Accept Return')] if r.status=='issued' else []) %}
+<form method="post" class="d-inline" action="{{url_for('issue_action',id=r.id,act=a)}}"><button class="btn btn-sm btn-outline-primary">{{l}}</button></form>{% endfor %}</td>{% endif %}</tr>{% endfor %}</table></div>{% endblock %}

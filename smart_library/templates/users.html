@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block title %}Users{% endblock %}{% block content %}
+<h3>Manage Users</h3><form method="post" class="row g-2 mb-4"><div class="col-md"><input name="name" class="form-control" placeholder="Librarian name" required></div>
+<div class="col-md"><input name="email" type="email" class="form-control" placeholder="Email" required></div><div class="col-md"><input name="emp" class="form-control" placeholder="Employee ID" required></div>
+<div class="col-md"><input name="password" type="password" class="form-control" placeholder="Password" required></div><div class="col-md-auto"><button class="btn btn-purple">Add Librarian</button></div></form>
+<table class="table"><tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr>{% for u in users %}<tr><td>{{u.name}}</td><td>{{u.email}}</td><td>{{u.role}}</td>
+<td><form method="post" data-confirm="Delete this user?" action="{{url_for('user_delete',id=u.id)}}"><button class="btn btn-sm btn-outline-danger">Delete</button></form></td></tr>{% endfor %}</table>{% endblock %}

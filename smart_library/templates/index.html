@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block title %}Home{% endblock %}{% block content %}
+<section class="hero text-center"><div class="container"><h1 class="display-4 fw-bold"><i class="fa fa-book-open-reader"></i> SmartLib</h1>
+<p class="lead">Welcome! Discover, borrow and enjoy thousands of books.</p>
+<form action="{{url_for('books')}}" class="d-flex mx-auto mt-4" style="max-width:520px"><input name="q" class="form-control form-control-lg" placeholder="Search title, author or ISBN"><button class="btn btn-lg btn-dark ms-2"><i class="fa fa-search"></i></button></form>
+<div class="mt-4"><a href="{{url_for('login')}}" class="btn btn-light me-2">Login</a><a href="{{url_for('register')}}" class="btn btn-outline-light">Register</a></div></div></section>
+<div class="container py-5"><h3 class="mb-3">Featured Books</h3><div class="row g-3">{% for b in books %}{% include '_card.html' %}{% endfor %}</div>
+<h3 class="mt-5 mb-3">Popular Categories</h3><div class="row g-3">{% for c in cats %}<div class="col-6 col-md-3"><a class="text-decoration-none" href="{{url_for('books',cat=c.id)}}"><div class="stat text-center"><h5 class="text-purple">{{c.name}}</h5><small>{{c.n}} titles</small></div></a></div>{% endfor %}</div>
+<h3 class="mt-5">About the Library</h3><p class="text-muted">SmartLib offers smart search, instant issue/return tracking, due-date alerts and personalised recommendations for every student.</p></div>{% endblock %}

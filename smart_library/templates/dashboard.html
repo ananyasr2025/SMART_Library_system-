@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% block title %}Dashboard{% endblock %}{% block content %}
+<h3 class="mb-3">Welcome, {{session.name}} <small class="badge bg-purple">{{session.role}}</small></h3>
+{% if session.role=='student' %}
+{% for n in notes %}<div class="alert alert-{{'danger' if n.message.startswith('OVERDUE') else 'warning'}}"><i class="fa fa-bell"></i> {{n.message}}</div>{% endfor %}
+<h5>Currently Borrowed</h5><table class="table"><tr><th>Book</th><th>Due</th></tr>{% for i in mine %}<tr><td>{{i.title}}</td><td>{{i.due_date}} {% if i.due_date<today %}<span class="badge bg-danger">Overdue</span>{% endif %}</td></tr>{% else %}<tr><td colspan="2" class="text-muted">Nothing borrowed.</td></tr>{% endfor %}</table>
+<h5 class="mt-4">Recommended for you</h5><div class="row g-3">{% for b in recs %}{% include '_card.html' %}{% else %}<p class="text-muted">Borrow or pick interests to get recommendations.</p>{% endfor %}</div>
+{% else %}
+<div class="row g-3 mb-4">{% for l,v in [('Total Books',s.total),('Available',s.avail),('Issued',s.issued),('Students',s.students),('Overdue',s.overdue)] %}<div class="col-6 col-lg"><div class="stat"><small>{{l}}</small><h3>{{v}}</h3></div></div>{% endfor %}</div>
+<div class="row g-3"><div class="col-lg-7"><div class="stat"><canvas id="m"></canvas></div></div><div class="col-lg-5"><div class="stat"><canvas id="c"></canvas></div></div></div>
+<h5 class="mt-4">Recent Transactions</h5><div class="table-responsive"><table class="table"><tr><th>Student</th><th>Book</th><th>Status</th><th>Date</th></tr>{% for r in recent %}<tr><td>{{r.name}}</td><td>{{r.title}}</td><td>{{r.status}}</td><td>{{r.request_date}}</td></tr>{% endfor %}</table></div>
+{% endif %}{% endblock %}
+{% block scripts %}{% if session.role!='student' %}<script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script>
+new Chart(m,{type:'bar',data:{labels:{{monthly|map(attribute='m')|list|tojson}},datasets:[{label:'Books issued per month',data:{{monthly|map(attribute='n')|list|tojson}},backgroundColor:'#6f42c1'}]}});
+new Chart(c,{type:'doughnut',data:{labels:{{bycat|map(attribute='name')|list|tojson}},datasets:[{data:{{bycat|map(attribute='n')|map('int')|list|tojson}},backgroundColor:['#0b1f4d','#6f42c1','#3d5afe','#9575cd','#7986cb']}]}});
+</script>{% endif %}{% endblock %}
